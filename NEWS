@@ -1,0 +1,217 @@
+Version 1.0-1
+
+- Updated docs. Added return values to all exported functions, all params and tiles even for S3 methods. Added the test folder to .Rinstignore for the time being (tests are 8 years out of date). Changed class of cmdscale wrapper to cmdscaleE and of sammon wrapper to sammonE. Removed the options(locatorBell=FALSE) from plot.cmdscaleE.  
+
+Version 1.0-0
+
+- Set to version 1.0-0. Submitted to CRAN. 
+
+Version 0.0-52
+
+- Removed data set CAClimateIndicatorsCountyMedian. Is still available in pakcage cordillera.
+
+Version 0.0-51
+
+- Streamlined the theta parameters for each stop_xxx method and the high level stops. Now only takes the correct number of parameters and also returns them properly named in the summary function. 
+
+Version 0.0-50
+
+- Added approximate power stress as stand-alone function. Added restricted power stress and approximate power stress for STOPS. Streamlined every fitting functions stress calculation: $stress.m is now always explicitly normalized stress and gets used for the STOPS calculations. $stress is now always sqrt(stress.m) and is the stress-1 value; that one gets reported in the summaries. This wasn't consistent for all fitting functions that were not from Smacof or powerStressMin (i.e., different for stop_cmdscale, stops_isomap1, stops_isomap2) so this is a break to previous versions and also as it was calculated for the Statistics and Computing article. For reproducibility of that article, we'd need to use a version prior to 0.0-50. Updated vignette.   
+
+Version 0.0-49
+
+- Added citation and made CRAN ready.
+
+Version 0.0-48
+
+- Added new derivative-free solvers from nloptr and dfoptim and cmaes. Updated docs. Again set default to ALJ.
+
+Version 0.0-47
+
+- Added pomp::sannbox as the SANN engine. Fixed bug that didn't allow to set itmax for pso. Removed the s argument for pso. Added a control argument to be used with pso and sannbox. Fixed a bug in the stop_* models that use smacof as workshorse function and used the wrong stress.m. Updated docs. 
+
+Version 0.0-46
+
+- Fixed bug for Shepard and resplot in plot.cmdscale and plot.smacofP where confdist was still named confdiss. Changed docs to accommmodate bcmds and lmds. Added class attributes bcmds and lmds to the respective objects (but are still mainly of class smacofP). Added note that equivalent functionality is also in the cops package.   
+
+Version 0.0-45
+
+- Added itmaxps argument to stops (for controlling the numer of iterations in the inner optimization to obtain the configuration). Added itmax arguments to all stop_* functions for that (was done by elipsis so far, but is now explicit and can be controlled). Changed defaults in c-clusteredness and c-regularity. Updated docs.
+
+Version 0.0-44
+
+- Added labels to the parameters returned as in the paper. Added aggregation argument to all structuredness indices and the definition so far is now the default.  
+
+Version 0.0-43
+
+- Added c-inequality. 
+
+Version 0.0-42
+
+- Added local MDS (contributed by Lisha Chen) and normalizations.
+
+Version 0.0-41
+
+- Added box cox stress (contributed by Lisha Chen) and normalizations.
+
+Version 0.0-40
+
+- Added new c-structuredness indices from scagnostics and c-hierarchy. Added a [0,1] normalized stress to sammon
+
+Version 0.0-39
+
+- Added isomapeps for optimization over neighbourhood region. 
+
+Version 0.0-38
+
+- Removed the COPS and codillera functionalities from this package and transferred it to its own cops and cordillera package.  This is now only a dedicated STOPS package. Added two new structures (regularity and clusteredness wrapper) for STOPS plus docs.
+
+
+Version 0.0-37
+
+- Added isomap for optimization over k-nearest neighbours to STOPS. Bug fixes.
+
+Version 0.0-36
+
+- In accordance with optim() in tgpoptim() the $par result is now a numeric vector instead of a data frame with one row. This fixes a bug for stops() with optimmethod="tgp" and verbose of more than 1 leading to an error. Extended tgp to also return the real function values not only the surrogate and select best parameter for min real value not minimum surrogate value. 
+
+Version 0.0-35
+
+- Renamed shrinkCoploss to shrinkCoploss0 for COPS-0. Updated docs. Moved cordillera code to a new package. Once cordillera is on CRAN, cordillera and optics code will be removed from this package. We'll also fork the cops functionality to its own package eventually.
+
+Version 0.0-34
+
+- Defaults set in shrinkCoploss and arguments to control the normalization of x.
+
+Version 0.0-33
+
+- Fixed bugs in shrinkCoploss and updated docs.
+
+Version 0.0-32
+
+- New COPS variant that shrinks residuals to COPS (COPS-0).  
+
+Version 0.0-31 
+
+- Changed name of COPS Variant 2 to pcops. Updated COPS wrapper. 
+
+Version 0.0-30 
+
+- Added Bayesian optimization capabilities to STOPS (DiceOptim and tgp); Added wrapper to tgp type optimization functions; fixed bug in powerStressMin for when to points coincide exactly.
+
+Version 0.0-29 
+
+- New versions of coplossMin and powerStressFast that slightly improve on the old version. API has been simplified and all the various stress versions have been removed. 
+
+Version 0.0-28
+
+- New implementation for powerStressMin (the majorization version) based on Jan's new version of rStressMin. Old version delivered correct configuration but was buggy with the stress returned.
+
+Version 0.0-27
+
+- Refactored code to work with dbscan::optics instead of ELKIs version. Updated the methods for the cordillera accordingly. The old ELKI optics interface is available as e_optics with class opticse. Fixed bug in plot of opticse. Might eventually be removed.
+
+Version 0.0-26
+
+- Added legend in cordillera plots as optional.
+
+Version 0.0-25
+
+- Added a direct coploss minimization procedure for given theta (coplossMin). This will eventually be turned into cops. Old cops (i.e. the hyperparameter selection aka STOPS) has now been renamed to copstops - eventually this might be discontinued as stops() takes that over. Added docs for that and methods and classes.  
+
+Version 0.0-24
+
+- Added a new power stress implementation using NEWUOA for optimization. Much faster than majorization but less accurate. Fixed an issues in documentation of stops_sstress. Added generic for plot3dstatic after smacof has been so radically refactored (eventually decide if we want to do this as well). 
+
+Version 0.0-23
+
+- Added all power losses for stops().
+
+Version 0.0-22
+
+- Added more structuredness indices (cdependence, cmanifoldness, cfunctionality, cassociation, ccomplexity, cfaithfulness). Updated vignette accordingly. Bug fixes.
+
+
+Version 0.0-21
+
+- Changed vignette to a static one (as there is no ELKI on check machines) with .rsp.
+
+Version 0.0-20
+
+- Bug fixes in print.summary.cordillera. Changed the aggregation in STOPS to sum/products - one now has to use the weights to penalize accordingly - this was because the indices may eventually also be so that one looks for a structure that is close to zero for some index. New default weights in stoploss and stops. Updated vignette. 
+
+Version 0.0-19
+
+- Added STOPS infrastructure (fitting functions and methods); added clinearity; STOPS works for clinearity and cclusteredness; minor updates to functions for COPS; updated vignette, added some tests;  
+
+Version 0.0-18
+
+- Added a vignette (includes the outline of general STOPS - paper pending)
+
+Version 0.0-17
+
+- Added a new stress version to powerstress stress.en and stress.en1 (stress-1 and normalized stress are now also calculated on the normalized distances and normalized proximities this will be less confusing and more compatible for people used to smacof stresses; stress.en is also the basis for stress per point). stress.en1 is now the default for the print method and sqrt(stress.en) is the default for comparing solutions in cops and stops (as in v 0.0-16 but the d are now d/enorm(d)).    
+
+Version 0.0-16 
+
+- Added stress measure in powerStressMin to sqrt(sum((d-delta)^2)/sum(delta^2)) (was non square rooted before). Fixed bug in print.summary.optics for displaying the stem and leaf plot.
+
+Version 0.0-15
+
+- Added the three parameter version of power stress (also optimizing over weights). We can now fit smacof models, strain models, sammon models, rstress, sstress (all one parameter models optimization over kappa or lambda), powermds, powerelastic, powersammon (two-parameter models optimization over kappa and lambda) and powerstress (three-parameter model optimization over kappa and lambda and nu). Not possible (and perhaps never to be implemented) are the two-parameter models that optimize over (lambda, nu) or (kappa, nu). 
+
+Version 0.0-14
+
+- Fixed bug in plot.cops for argument transplot and objects of type smacofP. Wrote a test to check that. Removed a side effect for smacofB objects introduced by plot.cops. Added new slots to cop_smacofXX functions so one can plot.smacofP them  without the side effect. Needs to be tested further.
+
+Version 0.0-13
+
+- Recalculated the CA Climate data set. Added more tests. Removed intercept in fitted model of transplots. 
+
+Version 0.0-12
+
+- Added more examples; added unit tests (rudimentary though, more and better tests will be added over time) 
+
+Version 0.0-11
+
+- Added CITATION info; added transformation plot (was NLShepard)
+
+Version 0.0-10
+
+- Added S3 object orientation to summary functions and made summary.stops and summary.smacofP and the according print functions
+
+Version 0.0-9
+
+- Added linearized (Shepard) and nonlinear shepard plots (NLShepard) for cops, smacofP, and cmdscale objects; made a new plot method for smacofP objects which is the class that powerStressMin returns;    
+
+Version 0.0-8
+
+- New author contributions in DESCRIPTION, added a plot method for cops objects
+
+Version 0.0-7
+
+- Added elastic scaling and sstress MDS models and fitted power versions of elastic scaling and sammon mapping; added simulated annealing optimization
+
+Version 0.0-6
+
+- Added procrustes and adjustment of configurations; improved the automatic handling of missing parameters in COPS
+
+Version 0.0-5 
+
+- Added 3D plots and devel snippets to be used in stops eventually
+
+Version 0.0-4
+
+- Added a STOPS high-level function to be filled with snippets later 
+
+Version 0.0-3
+
+- Added wrappers with S3 classes and methods to cmdscale, sammon. stops now enhances MASS and stats therefore.
+
+Version 0.0-2 
+
+- Added S3 classes and methods to cordillera, optics, powerStressMin and cops.
+
+Version 0.0-1 
+
+- Initial version. Successful prototypes.  

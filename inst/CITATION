@@ -1,0 +1,43 @@
+citHeader("To cite the stops package in publications use:")
+
+year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
+vers <- paste("R package version", meta$Version)
+
+citEntry(entry="Manual",
+         title = "stops: STructure Optimized Proximity Scaling",
+         author = personList(as.person("Thomas Rusch"),
+                             as.person("Jan de Leeuw"),
+                             as.person("Lisha Chen"),
+                             as.person("Patrick Mair"),
+                             as.person("Kurt Hornik")),
+         year = year,
+         note = vers,
+         textVersion =
+         paste("Rusch, Thomas and De Leeuw, Jan and Chen, Lisha and Mair, Patrick and Hornik, Kurt (", year,"). stops: STructure Optimized Proximity Scaling. ", vers, ".", sep=""))
+
+
+citEntry(entry = "Article", 
+    author = personList(as.person("Thomas Rusch"), 
+        as.person("Patrick Mair"),as.person("Kurt Hornik")), title = "Structure-based hyperparameter selection with Bayesian optimization in multidimensional scaling", journal="Statistics and Computing", year=2023, volume=33, number=28, pages="1-18", doi ="10.1007/s11222-022-10197-w", 
+    textVersion = paste("Rusch, Thomas and Mair, Patrick and Hornik, Kurt (2023)", 
+    "Structure-based hyperparameter selection with Bayesian optimization in multidimensional scaling.","Statistics and Computing,","33:28,","1-18."),
+    header="If stops() or c-structuredness indices are used, please cite:")
+
+citEntry(entry = "TechReport", 
+    author =personList(as.person("Jan de Leeuw"),as.person("Patrick Groenen"),as.person("Patrick Mair")), title = "Minimizing rstress using nested majorization", year = 2016, url = "https://rpubs.com/deleeuw/142619", institution="UCLA",
+    textVersion = paste("De Leeuw, Jan and Groenen, Patrick and Mair, Patrick (2016)", 
+    "Minimizing r-stress using nested majorization.","https://rpubs.com/deleeuw/142619"),
+    header="If powerStressMin() is used, please cite:")
+
+citEntry(entry = "Article", 
+    author =personList(as.person("Lisha Chen"),as.person("Andreas Buja")), title = "Stress functions for nonlinear dimension reduction, proximity analysis, and graph drawing.", journal="Journal of Machine Learning Research", year = 2013, volume=14, pages="1145-1173", 
+    textVersion = paste("Chen, Lisha and Buja, Andreas (2013)", 
+    "Stress functions for nonlinear dimension reduction, proximity analysis, and graph drawing.","Journal of Machine Learning Research,","14,"," pp. 1145-1173."),
+    header="If bcStressMin() is used, please cite:")
+
+citEntry(entry = "Article", 
+    author =personList(as.person("Lisha Chen"),as.person("Andreas Buja")), title = "Local multidimensional scaling for nonlinear dimension reduction, graph drawing, and proximity analysis.", journal="Journal of the American Statistical Association", year = 2009, volume=104, pages="209-219", year = 2009, 
+    textVersion = paste("Chen, Lisha and Buja, Andreas (2009)", 
+    "Local multidimensional scaling for nonlinear dimension reduction, graph drawing, and proximity analysis.", "Journal of the American Statistical Association,","104, pp. 209-219."),
+    header="If lmds() is used, please cite:")
+
