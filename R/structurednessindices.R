@@ -351,7 +351,7 @@ knn_dist <- function(dis,k)
 #' 
 #' @param confs a numeric matrix or a dist object
 #' @param q The norm used for the Cordillera. Defaults to 2. 
-#' @param minpts The minimum number of points that must make up a cluster in OPTICS (corresponds to k in the paper). It is passed to \code{\link[dbscan:optics]{optics}} where it is called minPts. Defaults to 2.
+#' @param minpts The minimum number of points that must make up a cluster in OPTICS (corresponds to k in the paper). It is passed to \code{\link[dbscan]{optics}} where it is called minPts. Defaults to 2.
 #' @param epsilon The epsilon parameter for OPTICS (called epsilon_max in the paper). Defaults to 2 times the maximum distance between any two points.
 #' @param distmeth The distance to be computed if X is not a symmetric matrix or a dist object (otherwise ignored). Defaults to Euclidean distance. 
 #' @param dmax The winsorization value for the highest allowed reachability. If used for comparisons between different configurations this should be supplied. If no value is supplied, it is NULL (default); then dmax is taken from the data as the either epsilon or the largest reachability, whatever is smaller.
@@ -406,7 +406,7 @@ c_regularity<- function(confs,q=1,epsilon=2*max(dist(confs)),distmeth="euclidean
 #'
 #' @param confs a numeric matrix
 #' @param p the parameter of the Minokwski distances (p=2 euclidean and p=1 is manhattan)
-#' @param agglmethod the method used for creating the clustering, see \code{\link{hclust}}.
+#' @param agglmethod the method used for creating the clustering, see \code{\link[stats]{hclust}}.
 #'
 #' @importFrom clue cl_validity
 #' @importFrom stats hclust
@@ -438,7 +438,7 @@ c_hierarchy <- function(confs,p=2,agglmethod="complete")
 #' @importFrom scagnostics scagnostics
 #'
 #'
-#' @return a numeric value; outlying (see \code{\link{scagnostics}})
+#' @return a numeric value; outlying (see \code{\link[scagnostics]{scagnostics}})
 #' 
 #' @examples
 #' delts<-smacof::kinshipdelta
@@ -460,7 +460,7 @@ c_outlying<- function(conf,aggr=max){
 #' @param aggr the aggregation function for configurations of more than two dimensions. Defaults to max.
 #' @importFrom scagnostics scagnostics
 #'
-#' @return a numeric value; convexity (see \code{\link{scagnostics}})
+#' @return a numeric value; convexity (see \code{\link[scagnostics]{scagnostics}})
 #' 
 #' @examples
 #' delts<-smacof::kinshipdelta
@@ -484,7 +484,7 @@ c_convexity<- function(conf,aggr=max){
 #' 
 #' @importFrom scagnostics scagnostics
 #'
-#' @return a numeric value; skinniness (see \code{\link{scagnostics}})
+#' @return a numeric value; skinniness (see \code{\link[scagnostics]{scagnostics}})
 #' 
 #' @examples
 #' delts<-smacof::kinshipdelta
@@ -506,7 +506,7 @@ c_skinniness<- function(conf,aggr=max){
 #' @param conf A numeric matrix.
 #' @param aggr the aggregation function for configurations of more than two dimensions. Defaults to max.
 #'
-#' @return a numeric value; stringiness (see \code{\link{scagnostics}})
+#' @return a numeric value; stringiness (see \code{\link[scagnostics]{scagnostics}})
 #'  
 #' @importFrom scagnostics scagnostics
 #' 
@@ -531,7 +531,7 @@ c_stringiness<- function(conf,aggr=max){
 #' @param aggr the aggregation function for configurations of more than two dimensions. Defaults to max. 
 #' @importFrom scagnostics scagnostics
 #'
-#' @return a numeric value; sparsity (see \code{\link{scagnostics}})
+#' @return a numeric value; sparsity (see \code{\link[scagnostics]{scagnostics}})
 #' 
 #' @examples
 #' delts<-smacof::kinshipdelta
@@ -555,7 +555,7 @@ c_sparsity<- function(conf,aggr=max){
 #' @importFrom scagnostics scagnostics
 #'
 #'
-#' @return a numeric value; clumpiness (see \code{\link{scagnostics}})
+#' @return a numeric value; clumpiness (see \code{\link[scagnostics]{scagnostics}})
 #' 
 #' @examples
 #' delts<-smacof::kinshipdelta
@@ -579,7 +579,7 @@ c_clumpiness<- function(conf,aggr=max){
 #' @param aggr the aggregation function for configurations of more than two dimensions. Defaults to max. 
 #' @importFrom scagnostics scagnostics
 #'
-#' @return a numeric value; striatedness (see \code{\link{scagnostics}})
+#' @return a numeric value; striatedness (see \code{\link[scagnostics]{scagnostics}})
 #' 
 #' @examples
 #' delts<-smacof::kinshipdelta
@@ -594,4 +594,61 @@ c_striatedness<- function(conf,aggr=max){
     return(out)
 }
 
+
+
+#' c-shepardness 
+#' calculates the c-shepardness as the correlation between a loess smoother of the transformed distances and the transformed dissimilarities 
+#'
+#' @param object an object of class smacofP 
+#'
+#' @return a numeric value
+#'
+#' @importFrom stats predict
+#' @examples
+#' delts<-smacof::kinshipdelta
+#' res<-smacofx::postmds(delts)
+#' c_shepardness(res)
+#' @export
+c_shepardness<- function(object)
+{
+   wm <- object$tweightmat
+   if(is.null(wm)) wm <- object$weightmat 
+   notmiss <- as.vector(as.dist(object$weightmat) > 0)
+   delts <- as.vector(object$tdelta)
+   confd <- as.vector(object$confdist) #Confdist are already transformed
+   wm <- as.vector(wm)
+        #delta=observed delta Delta
+        #tdelta=transformed delta normalized T(Delta) 
+        #distances= dhats, optimally scaled transformed Delta and normalized f(T(Delta))
+        notmiss.iord <- notmiss[object$iord]
+        delts1 <- delts[notmiss]
+        confd1 <- confd[notmiss]
+        wm1 <- wm[notmiss]
+        dhats1 <- as.vector(object$dhat)[notmiss]
+        expo <- 1
+        disttrans.ind <- names(object$pars)%in%c("kappa","r") 
+        disttrans <- object$pars[disttrans.ind]
+        if(object$type=="ratio")
+        {
+        scallm <- stats::lm(confd1~-1+dhats1,weights=wm)
+        scallp <- stats::predict(scallm)
+        }
+        if(object$type=="interval")
+        {
+            scallm <- stats::lm(confd1~dhats1,weights=wm)
+            scallp <- predict(scallm)
+        }
+        if(object$type=="ordinal")
+        {
+        expo <- switch(names(disttrans),
+                       r=2*disttrans,
+                       kappa=disttrans
+                       )                   
+        scallm <- stats::lm(confd1~I(dhats1^expo),weights=wm)
+        scallp <- predict(scallp)
+        }
+     ptl <- predict(stats::loess(confd1~delts1,weights=wm),family="symmetric")
+     res <- cor(ptl,scallp)
+     return(res)
+  }
 
