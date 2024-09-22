@@ -5,10 +5,12 @@
 \title{c-shepardness 
 calculates the c-shepardness as the correlation between a loess smoother of the transformed distances and the transformed dissimilarities}
 \usage{
-c_shepardness(object)
+c_shepardness(object, voidarg = NULL)
 }
 \arguments{
 \item{object}{an object of class smacofP}
+
+\item{voidarg}{empty argument to allow passing NULL as strucpar}
 }
 \value{
 a numeric value

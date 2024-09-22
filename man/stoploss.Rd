@@ -7,14 +7,12 @@
 stoploss(
   obj,
   stressweight = 1,
-  structures = c("cclusteredness", "clinearity", "cdependence", "cmanifoldness",
-    "cassociation", "cnonmonotonicity", "cfunctionality", "ccomplexity", "cfaithfulness",
-    "cregularity", "chierarchy", "cconvexity", "cstriatedness", "coutlying",
-    "cskinniness", "csparsity", "cstringiness", "cclumpiness", "cinequality"),
+  structures,
   strucweight = rep(-1/length(structures), length(structures)),
   strucpars,
   stoptype = c("additive", "multiplicative"),
-  verbose = 0
+  verbose = 0,
+  registry = struc_reg
 )
 }
 \arguments{
@@ -31,6 +29,8 @@ stoploss(
 \item{stoptype}{what type of weighted combination should be used? Can be 'additive' or 'multiplicative'.}
 
 \item{verbose}{verbose output}
+
+\item{registry}{an object of class registry. This can be used to add additional c-structuredness indices. Defaults ot the registry created via .onLoad in zzz.R}
 }
 \value{
 a list with calculated stoploss ($stoploss), structuredness indices ($strucinidices) and hyperparameters ($parameters and $theta)

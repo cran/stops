@@ -4,7 +4,7 @@
 \alias{jackmds.stops}
 \title{MDS Jackknife for stops objects}
 \usage{
-\method{jackmds}{stops}(object, eps = 1e-06, itmax = 100, verbose = FALSE)
+\method{jackmds}{stops}(object, eps = 1e-06, itmax = 5000, verbose = FALSE)
 }
 \arguments{
 \item{object}{Object of class pcops.}
@@ -41,7 +41,7 @@ Note that this jackknife only resamples the configuration given the selected hyp
 }
 \examples{
 diso<-kinshipdelta
-fit <- stops(diso,loss="powermds",lower=c(1,1),upper=c(5,5),itmaxps=100)
-res.jk <- jackmds(fit)
+fit <- stops(diso,loss="stress",lower=1,upper=5)
+res.jk <- jackmds(fit) 
 plot(res.jk)
 }
